@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { display: flex; flex-wrap: wrap; background: #fff; }
+  .box { width: 300px; height: 350px; position: relative; margin: 10px; overflow: hidden; border: 1px solid #ccc; }
+  .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/rafaella.png'); background-repeat: no-repeat; }
+  .before { background-position: 0% 50%; background-size: 200% 100%; }
+  .after { background-size: 200% 100%; mix-blend-mode: difference; }
+  .label { position: absolute; bottom: 0; left: 0; background: white; padding: 2px; font-size: 10px; z-index: 10; }
+</style>
+</head>
+<body>
+<script>
+  const scales = [190, 200, 210, 220]; // The 'after' layer background-size X. Since it's 200% normally.
+  // Wait, if scale changes, Y should change too. If X is 200%, Y is 100%. If X is 210%, Y is 105%.
+  const yOffsets = [-30, -15, 0, 15, 30]; // px
+  const xOffsets = [-30, -15, 0, 15, 30]; // px
+  
+  // Let's just generate a bunch of boxes with base scale 200% and varying offsets, and base scale 210%...
+  let html = '';
+  // Let's fix scale at 200% first and find offset.
+  // But user said "uma esta muito esticada" (one is stretched/larger). Let's test scale 190%, 200%, 210%, 220% for 'after'.
+  for (let scale of [190, 200, 210, 220]) {
+      let sizeY = scale / 2;
+      for (let y of [-40, -20, 0, 20, 40]) {
+          for (let x of [-40, -20, 0, 20]) {
+              let posX = `calc(100% + ${x}px)`;
+              let posY = `calc(50% + ${y}px)`;
+              html += `<div class="box">
+                 <div class="layer before"></div>
+                 <div class="layer after" style="background-size: ${scale}% ${sizeY}%; background-position: ${posX} ${posY};"></div>
+                 <div class="label">S:${scale}% X:${x} Y:${y}</div>
+              </div>`;
+          }
+      }
+  }
+  document.body.innerHTML = html;
+</script>
+</body>
+</html>
