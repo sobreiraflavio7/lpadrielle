@@ -110,53 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Animate on Scroll (arrastar para dentro)
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            } else {
-                // Remove the class when it leaves the viewport going UP
-                // so it can animate again when scrolling DOWN
-                const boundingClientRect = entry.target.getBoundingClientRect();
-                if (boundingClientRect.top > 0) {
-                    entry.target.classList.remove('visible');
-                }
-            }
-        });
-    }, observerOptions);
-
-    const animateElements = document.querySelectorAll(`
-        .hero-content, 
-        .methodology-content, 
-        .methodology-image-wrapper, 
-        .section-title, 
-        .section-subtitle, 
-        .result-card, 
-        .authority-text, 
-        .authority-image-wrapper, 
-        .testimonial-card, 
-        .testimonial-media, 
-        .faq-item, 
-        .location-text, 
-        .location-media,
-        .clinic-placeholder
-    `);
-
-    animateElements.forEach((el, index) => {
-        el.classList.add('animate-on-scroll');
-        // Optional: add slight delay for elements in a grid
-        if (el.classList.contains('result-card') || el.classList.contains('testimonial-card') || el.classList.contains('testimonial-media')) {
-            el.style.transitionDelay = `${(index % 3) * 0.15}s`;
-        }
-        observer.observe(el);
-    });
+    // 5. Removed animations to improve performance
 
     // 6. "Ver mais casos" Logic
     const btnVerMais = document.getElementById('btn-ver-mais');
@@ -166,9 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnVerMais.addEventListener('click', () => {
             hiddenResults.forEach(result => {
                 result.classList.remove('hidden-result');
-                // Adiciona a classe animate-on-scroll pra eles aparecerem animados
-                result.classList.add('animate-on-scroll');
-                observer.observe(result);
             });
             // Hide the button after clicking
             btnVerMais.style.display = 'none';
